@@ -1,42 +1,43 @@
 import {Resource} from './resource';
 import {Page} from './page';
-import {SortOrder} from './sort-order';
 
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Sort} from './sort';
+import {ResourceHelper} from './resource-helper';
 
+export let API_URI = new InjectionToken('api.uri');
 
 @Injectable()
 export class ResourceService {
 
-  constructor(private root_uri: string, private http: HttpClient) {}
+  constructor(@Inject(API_URI) private root_uri: string, private http: HttpClient) {}
 
-  getAll<R extends Resource>(cls: typeof R, ...sort: Sort[]): R[] {
+  getAll<R extends Resource>(type: { new(): R } , resource: string, ...sort: Sort[]): R[] {
+    const uri = this.root_uri.concat(resource);
+    const params = ResourceHelper.queryStringSort(new HttpParams(), sort);
 
-    const uri = this.root_uri.concat(cls.path);
-    const params = this.queryStringSort(new HttpParams(), sort);
-
-    const result = [];
+    const result: R[] = [];
     result['http'] = this.http;
     result['observable'] =  this.http.get(uri, {params: params});
     result['observable'].subscribe(data => {
       for (const item  of data['_embedded'][Object.keys(data['_embedded'])[0]]){
-        item.http = this.http;
-        result.push(item);
+        const e: R = new type();
+        result.push(e);
+        this.instantiateResource(e, item);
       }
     });
     return result;
   }
 
-  getAllPaged<R extends Resource>(cls: typeof R, size?: number, ...sort: Sort[]): Page<R> {
-    const uri = this.root_uri.concat(cls.path);
-    let params = new HttpParams();
-    params = this.queryStringSize(params, size);
-    params = this.queryStringSort(params, sort);
+  getAllPaged<R extends Resource>(type: { new(): R }, resource: string, size?: number, ...sort: Sort[]): Page<R> {
+    const uri = this.root_uri.concat(resource);
+    const params = new HttpParams();
+    ResourceHelper.queryStringSize(params, size);
+    ResourceHelper.queryStringSort(params, sort);
 
     const result = new Page<R>(this.http);
     result.observable =  this.http.get(uri, {params: params});
@@ -45,35 +46,33 @@ export class ResourceService {
     return result;
   }
 
-  get<R extends Resource>(cls: typeof R, id: any): R {
-    const uri = this.root_uri.concat(cls.path).concat('/', id);
-    const resource: R = {} as R;
-    resource.http = this.http;
-    resource.observable = this.http.get(uri);
-    resource.observable.subscribe(data => {
-      for (let p in data) {
-        resource[p] = data[p];
-      }
+  get<R extends Resource>(type: { new(): R }, resource: string, id: any): R {
+    const uri = this.root_uri.concat(resource).concat('/', id);
+    const result: R = new type();
+    result.http = this.http;
+    result.observable = this.http.get(uri);
+    result.observable.subscribe(data => {
+      this.instantiateResource(result, data);
     });
-    return resource;
+    return result;
   }
 
   search<R extends Resource>(query: string, queryParams?: Map<string, any>, size?: number, ...sort: Sort[]): Page<R> {
     const uri = this.root_uri.concat('/search/', query);
-    let params = new HttpParams();
-    params = this.queryStringSearch(params, queryParams);
-    params = this.queryStringSize(params, size);
-    params = this.queryStringSort(params, sort);
+    const params = new HttpParams();
+    ResourceHelper.queryStringSearch(params, queryParams);
+    ResourceHelper.queryStringSize(params, size);
+    ResourceHelper.queryStringSort(params, sort);
 
     const result = new Page<R>(this.http);
-    result.observable = this.http.get(uri,{params: params});
+    result.observable = this.http.get(uri, {params: params});
     result.observable.subscribe(data => result.init(data, sort));
     return result;
   }
 
   create<R extends Resource>(entity: R): any {
     const uri = this.root_uri.concat(entity.path);
-    const payload = this.resolveRelations(entity);
+    const payload = ResourceHelper.resolveRelations(entity);
     const result = {};
     result['observable'] = this.http.post(uri, payload);
     result['observable'].susbcribe(data => {
@@ -88,44 +87,11 @@ export class ResourceService {
     return this.http.delete(resource._links.self.href);
   }
 
-  private queryStringSort(params: HttpParams, sort?: {path: string, order: SortOrder}[]): HttpParams {
-
-    if (sort) {
-      for (let i = 0; i < sort.length; i++) {
-        params = params.append('sort', sort[i].path.concat(',').concat(sort[i].order));
-      }
+  private instantiateResource<R extends Resource>(entity: R, payload: Object): void {
+    for (const p in payload) {
+      entity[p] = payload[p];
     }
-    return params;
-  }
-
-  private queryStringSize(params: HttpParams, size?: number): HttpParams {
-    if (size) {
-      params = params.append('size', size.toString());
-    }
-    return params;
-  }
-
-  private queryStringSearch(params: HttpParams, queryParams?: Map<string, any>): HttpParams {
-    if (queryParams && queryParams.size > 0) {
-      const qs = '';
-      const i = 0;
-      queryParams.forEach((value: any, key: string) => {
-        params.append(key, value);
-      });
-    }
-    return params;
-  }
-
-  private resolveRelations(resource: Resource): Object {
-    const result: any = {};
-    for (const key in resource) {
-      if (resource[key] instanceof Resource) {
-        result[key] = resource[key]['_links']['self']['href'];
-      }else {
-        result[key] = resource[key];
-      }
-    }
-    return result as Object;
+    entity.http = this.http;
   }
 
 }
