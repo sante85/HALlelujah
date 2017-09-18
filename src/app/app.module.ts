@@ -1,26 +1,28 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {HallelujahModule} from './hallelujah/hallelujah.module';
 
 import {AppComponent} from './app.component';
-import {VendingMachineComponent} from './vending-machine/vending-machine.component';
-import {VendorComponent} from './vendor/vendor.component';
 import {environment} from '../environments/environment';
-import {API_URI, ResourceService} from './resource.service';
+import {API_URI, ResourceService} from './hallelujah/resource.service';
+
+import {TeamManagerComponent} from './team-manager/team-manager.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VendingMachineComponent,
-    VendorComponent
+    TeamManagerComponent,
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HallelujahModule,
+    NgbModule.forRoot(),
+    FormsModule
   ],
   providers: [
     ResourceService,
-    HttpClient,
     { provide: API_URI, useValue: environment.api_url }
   ],
   bootstrap: [AppComponent]

@@ -70,20 +70,13 @@ export class ResourceService {
     return result;
   }
 
-  create<R extends Resource>(entity: R): any {
+  create<R extends Resource>(entity: R): Observable<Object> {
     const uri = this.root_uri.concat(entity.path);
     const payload = ResourceHelper.resolveRelations(entity);
-    const result = {};
-    result['observable'] = this.http.post(uri, payload);
-    result['observable'].susbcribe(data => {
-      for (let p in payload) {
-        result[p] = payload[p];
-      }
-    });
-    return result;
+    return this.http.post(uri, payload);
   }
 
-  delete<R extends Resource>(resource: R): Observable<any> {
+  delete<R extends Resource>(resource: R): Observable<Object> {
     return this.http.delete(resource._links.self.href);
   }
 

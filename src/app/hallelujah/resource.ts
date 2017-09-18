@@ -1,9 +1,9 @@
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Sort} from "./sort";
-import {ResourceHelper} from "./resource-helper";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Sort} from './sort';
+import {ResourceHelper} from './resource-helper';
 
 export abstract class Resource {
 
@@ -67,10 +67,9 @@ export abstract class Resource {
 
   // Adds the given resource to the bound collection by the relation
 
-  add<R extends Resource>(relation: string, resource: R): Observable<void> {
-    return this.http.post(this._links.relation.href, resource._links.self.href)
-      .map(() => null)
-      .catch(this.handleError);
+  add<R extends Resource>(relation: string, resource: R): Observable<Object> {
+    return this.http.post(this._links[relation].href, resource._links.self.href,
+      {headers: new HttpHeaders().set('Content-Type', 'text/uri-list')});
   }
 
   private handleError(error: any): Observable<any> {
