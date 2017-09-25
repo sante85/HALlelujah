@@ -1,6 +1,6 @@
 # Hallelujah
 
-Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API
+Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API (and by extend any API that conforms the Spring Data Rest resource model)
 
 !! This module needs Angular version 4.3+ since it uses the new HttpClientModule introduced in 4.3
 
@@ -64,12 +64,39 @@ export class Team extends Resource {
     players: Player[];
 }
 ```
-So far so good, time to make our application interact with the API
+So far so good, time to make our application interact with the API.  
+To illustrate we create a TeamManagerComponent that will implement some basic CRUD on our resources.
+
+```typescript
+@Component({...})
+export class TeamManagerComponent implements OnInit {
+
+  teams: Team[];
+    
+  constructor( private rs: ResourceService ) { }
+
+  ngOnInit() {
+    this.getAllTeams();
+  }
+
+  getAllTeams() {
+    this.teams = this.rs.getAll(Team, 'teams');
+  }
+ }
+```
+Our component constructor has an argument of type ResourceService. Upon creation of the component the ResourceService instance we defined earlier as a provider in our root module will be injected and be available for further use in the component.  
+We create a function getAllTeams() which will fetch all the teams from our backend.
+To fetch these teams we use the getAll method of the ResourceService. This method requires 2 parameters:  
++ The type of the resource
++ The relative URI path of the resource
+
 
 ##API
 ###ResourceService
 
 ###Resource
+
+###Page
  
 ## Demo Application
 
