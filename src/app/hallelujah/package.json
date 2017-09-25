@@ -1,0 +1,33 @@
+{
+  "name": "ng2-hallelujah",
+  "version": "0.1.0",
+  "description": "A HAL/JSON http client for Spring Data Rest",
+  "main": "index.ts",
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular 2",
+    "angular4",
+    "hal",
+    "hateoas",
+    "spring",
+    "spring data rest",
+    "rest"
+  ],
+  "author": "Unibit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unib1t/HALlelujah.git"
+  },
+  "homepage": "https://github.com/unib1t/HALlelujah",
+  "bugs": {
+    "url": "https://github.com/unib1t/HALlelujah/issues"
+  },
+  "dependencies": {
+    "@angular/common": "^4.4.2",
+    "@angular/core": "^4.4.2",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.17"
+  }
+}
