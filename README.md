@@ -87,8 +87,10 @@ export class TeamManagerComponent implements OnInit {
 Our component constructor has an argument of type ResourceService. Upon creation of the component the ResourceService instance we defined earlier as a provider in our root module will be injected and be available for further use in the component.  
 We create a function getAllTeams() which will fetch all the teams from our backend.
 To fetch these teams we use the getAll method of the ResourceService. This method requires 2 parameters:  
-+ The type of the resource
-+ The relative URI path of the resource
++ The type of the resource  
+  i.e. Team
++ The relative URI path of the resource  
+  i.e. 'teams' for 'http://localhost:8080/teams'
 
 
 ##API
