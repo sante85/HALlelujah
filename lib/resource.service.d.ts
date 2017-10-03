@@ -6,7 +6,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 export declare let API_URI: InjectionToken<{}>;
-
 export declare class ResourceService {
   private root_uri;
   private http;
@@ -28,4 +27,6 @@ export declare class ResourceService {
   create<R extends Resource>(entity: R): Observable<Object>;
 
   delete<R extends Resource>(resource: R): Observable<Object>;
+
+  private getResourceUrl(resource?);
 }
