@@ -3,11 +3,6 @@
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 
-declare var module: NodeModule;
-
-interface NodeModule {
-    id: string;
-}
 
 type SortOrder = 'DESC' | 'ASC';
 
@@ -20,7 +15,7 @@ declare global {
 
     interface Array<T> {
         http: HttpClient;
-        observable: Observable<T>;
+      observable: Observable<any>;
         totalElements: number;
         totalPages: number;
         pageNumber: number;
@@ -46,3 +41,7 @@ declare global {
         size(size: number): Observable<void>;
     }
 }
+
+export * from "./lib/hallelujah.module";
+export * from "./lib/resource.service";
+export * from "./lib/resource";

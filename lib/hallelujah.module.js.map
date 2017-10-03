@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "hallelujah.module.js",
+  "sourceRoot": "",
+  "sources": [
+    "../src/hallelujah.module.ts"
+  ],
+  "names": [],
+  "mappings": ";;;;;;;;AAAA,sCAAuC;AACvC,6CAAkE;AAQlE;IAAA;IACA,CAAC;IADY,gBAAgB;QAN5B,eAAQ,CAAC;YACN,OAAO,EAAE,CAAC,uBAAgB,CAAC;YAC3B,YAAY,EAAE,EAAE;YAChB,OAAO,EAAE,CAAC,uBAAgB,CAAC;YAC3B,SAAS,EAAE,CAAC,iBAAU,CAAC;SAC1B,CAAC;OACW,gBAAgB,CAC5B;IAAD,uBAAC;CAAA,AADD,IACC;AADY,4CAAgB"
+}
