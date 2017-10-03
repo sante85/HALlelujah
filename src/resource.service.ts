@@ -16,7 +16,7 @@ export class ResourceService {
     }
 
     getAll<R extends Resource>(type: { new(): R }, resource: string, size?: number, ...sort: Sort[]): R[] {
-        const uri = this.root_uri.concat(resource);
+      const uri = this.getResourceUrl(resource);
         const params = ResourceHelper.queryStringSort(new HttpParams(), sort);
         ResourceHelper.queryStringSize(params, size);
         const result: R[] = ResourceHelper.createEmptyResult<R>(this.http);
@@ -27,7 +27,7 @@ export class ResourceService {
     }
 
     get <R extends Resource>(type: { new(): R }, resource: string, id: any): R {
-        const uri = this.root_uri.concat(resource).concat('/', id);
+      const uri = this.getResourceUrl(resource).concat('/', id);
         const result: R = new type();
         result.observable = this.http.get(uri);
         result.observable.subscribe(data => {
@@ -37,7 +37,7 @@ export class ResourceService {
     }
 
     search<R extends Resource>(type: { new(): R }, query: string, queryParams?: Map<string, any>, size?: number, ...sort: Sort[]): R[] {
-        const uri = this.root_uri.concat('/search/', query);
+      const uri = this.getResourceUrl().concat('search/', query);
         const params = new HttpParams();
         ResourceHelper.queryStringSearch(params, queryParams);
         ResourceHelper.queryStringSize(params, size);
@@ -58,5 +58,16 @@ export class ResourceService {
     delete<R extends Resource>(resource: R): Observable<Object> {
         return this.http.delete(resource._links.self.href);
     }
+
+  private getResourceUrl(resource?: string): string {
+    let url = this.root_uri;
+    if (!url.endsWith('/')) {
+      url = url.concat('/');
+    }
+    if (resource) {
+      return url.concat(resource);
+    }
+    return url;
+  }
 
 }

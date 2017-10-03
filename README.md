@@ -6,8 +6,9 @@ Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_spec
 
 Happy coding! Feedback much appreciated!
 
-## Installation
+#####Disclaimer: This project is work in progress
 
+## Installation
 ```
 npm install ng2-hallelujah
 ```
@@ -20,11 +21,11 @@ npm install ng2-hallelujah
 ```typescript
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HallelujahModule} from './hallelujah/hallelujah.module';
+import {HallelujahModule, ResourceService} from 'ng2-hallelujah/ng2-hallelujah';
 
 import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
-import {API_URI, ResourceService} from './hallelujah/resource.service';
+import {API_URI, } from './ng2-hallelujah/lib/resource.service';
 
 @NgModule({
   declarations: [
@@ -92,18 +93,20 @@ To fetch these teams we use the getAll method of the ResourceService. This metho
 + The relative URI path of the resource  
   i.e. 'teams' for 'http://localhost:8080/teams'
 
+To be continued ....
 
 ##API
 ###ResourceService
-
+TODO
 ###Resource
-
-###Page
+TODO
  
 ## Demo Application
+TODO
 
 ## Roadmap
 
 + Write unit tests (I know)
-+ Error handling
-+ Security Interceptors (Basic, JWT)
++ Improve error handling
++ Add authentication support (Basic, JWT)
++ Add support for projections
