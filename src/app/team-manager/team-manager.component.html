@@ -1,0 +1,62 @@
+<div class="container">
+  <h1>Team Manager</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <ul class="list-group">
+        <li *ngFor="let team of teams" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <p>{{team.name}}</p>
+            <a href="#" (click)="deleteTeam(team)"class="oi trash">X</a>
+            <a href="#" (click)="getTeamPlayers(team)"class="oi trash">></a>
+          </div>
+        </li>
+      </ul>
+      <form (ngSubmit)="createTeam()" #teamForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="forms.team.name" name="name" id="name" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Team</button>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <ul *ngIf="selectedTeam" class="list-group">
+        <li *ngFor="let player of selectedTeam.players" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <p>{{player.firstName}} {{player.lastName}}</p>
+            <a href="#" (click)="unbindPlayer(player)"class="oi trash">X</a>
+          </div>
+        </li>
+      </ul>
+      <h3>Add player</h3>
+      <form (ngSubmit)="addPlayerToTeam()" #addPlayerForm="ngForm">
+        <div class="form-group">
+          <label for="firstName">Firstname</label>
+          <select class="form-control" [(ngModel)]="forms.team_player" name="team_player" id="team_player" required>
+            <option *ngFor="let player of players" [ngValue]="player">{{player.firstName}} {{player.lastName}}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Player</button>
+      </form>
+      <h3>Create new player</h3>
+      <form (ngSubmit)="createPlayer()" #playerForm="ngForm">
+        <div class="form-group">
+          <label for="firstName">Firstname</label>
+          <input type="text" class="form-control" [(ngModel)]="forms.player.firstName" name="firstName" id="firstName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Lastname</label>
+          <input type="text" class="form-control" [(ngModel)]="forms.player.lastName" name="lastName" id="lastName" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Player</button>
+      </form>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 /* SystemJS module definition */
+
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 
@@ -45,6 +46,3 @@ declare global {
         size(size: number): Observable<void>;
     }
 }
-
-
-
