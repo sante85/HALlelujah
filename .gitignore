@@ -2,7 +2,8 @@
 
 # compiled output
 /tmp
-/lib
+/dist
+/.ngbuild
 *.map.js
 *.metadata.json
 /src/**/*.js

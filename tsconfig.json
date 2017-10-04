@@ -18,12 +18,9 @@
     ]
   },
   "files": [
-    "ng2-hallelujah.ts"
+    "public_api.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "angularCompilerOptions": {
-    "genDir": "lib"
-  }
+  ]
 }
