@@ -3,10 +3,9 @@
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 
-
-type SortOrder = 'DESC' | 'ASC';
-
 declare global {
+
+  type SortOrder = 'DESC' | 'ASC';
 
     interface Sort {
         path: string;
@@ -42,6 +41,6 @@ declare global {
     }
 }
 
-export * from "./lib/hallelujah.module";
-export * from "./lib/resource.service";
-export * from "./lib/resource";
+export * from "./src/hallelujah.module";
+export * from "./src/resource.service";
+export * from "./src/resource";
