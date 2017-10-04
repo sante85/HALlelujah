@@ -6,8 +6,9 @@ Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_spec
 
 Happy coding! Feedback much appreciated!
 
-## Installation
+#####Disclaimer: This project is work in progress
 
+## Installation
 ```
 npm install ng2-hallelujah
 ```
@@ -20,11 +21,11 @@ npm install ng2-hallelujah
 ```typescript
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HallelujahModule} from './hallelujah/hallelujah.module';
+import {HallelujahModule, ResourceService} from 'ng2-hallelujah/ng2-hallelujah';
 
 import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
-import {API_URI, ResourceService} from './hallelujah/resource.service';
+import {API_URI, } from './ng2-hallelujah/lib/resource.service';
 
 @NgModule({
   declarations: [
@@ -87,21 +88,25 @@ export class TeamManagerComponent implements OnInit {
 Our component constructor has an argument of type ResourceService. Upon creation of the component the ResourceService instance we defined earlier as a provider in our root module will be injected and be available for further use in the component.  
 We create a function getAllTeams() which will fetch all the teams from our backend.
 To fetch these teams we use the getAll method of the ResourceService. This method requires 2 parameters:  
-+ The type of the resource
-+ The relative URI path of the resource
++ The type of the resource  
+  i.e. Team
++ The relative URI path of the resource  
+  i.e. 'teams' for 'http://localhost:8080/teams'
 
+To be continued ....
 
 ##API
 ###ResourceService
-
+TODO
 ###Resource
-
-###Page
+TODO
  
 ## Demo Application
+TODO
 
 ## Roadmap
 
 + Write unit tests (I know)
-+ Error handling
-+ Security Interceptors (Basic, JWT)
++ Improve error handling
++ Add authentication support (Basic, JWT)
++ Add support for projections
