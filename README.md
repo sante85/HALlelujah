@@ -6,7 +6,7 @@ Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_spec
 
 Happy coding! Feedback much appreciated!
 
-#####Disclaimer: This project is work in progress
+##### Disclaimer: This project is work in progress
 
 ## Installation
 ```
@@ -21,11 +21,11 @@ npm install ng2-hallelujah
 ```typescript
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HallelujahModule, ResourceService} from 'ng2-hallelujah/ng2-hallelujah';
+import {HallelujahModule, ResourceService, API_URI} from 'ng2-hallelujah';
 
 import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
-import {API_URI, } from './ng2-hallelujah/lib/resource.service';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +53,8 @@ By inheriting the Resource class we give HAL specific features to our entity
 **Attention**: The name and type of the members of your resource class must exactly match the name and type of the members of the resource entity exposed by your API  
 
 ```typescript
+import {Resource} from 'ng2-hallelujah';
+
 export class Player extends Resource{
     firstName: string;
     lastName: string;   
@@ -60,6 +62,8 @@ export class Player extends Resource{
 ```
 Since a Team consists of multiple players, we model the one-to-many relationship between the Team resource and the Player resources
 ```typescript
+import {Resource} from 'ng2-hallelujah';
+
 export class Team extends Resource {
     name: string;
     players: Player[];
@@ -69,6 +73,8 @@ So far so good, time to make our application interact with the API.
 To illustrate we create a TeamManagerComponent that will implement some basic CRUD on our resources.
 
 ```typescript
+import {ResourceService} from 'ng2-hallelujah';
+
 @Component({...})
 export class TeamManagerComponent implements OnInit {
 
@@ -95,10 +101,10 @@ To fetch these teams we use the getAll method of the ResourceService. This metho
 
 To be continued ....
 
-##API
-###ResourceService
+## API
+### ResourceService
 TODO
-###Resource
+### Resource
 TODO
  
 ## Demo Application
@@ -106,7 +112,6 @@ TODO
 
 ## Roadmap
 
-+ Write unit tests (I know)
-+ Improve error handling
++ Error handling
 + Add authentication support (Basic, JWT)
 + Add support for projections
