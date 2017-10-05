@@ -1,6 +1,6 @@
 {
   "name": "ng2-hallelujah",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API (and by extend any API that conforms the Spring Data Rest resource model)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
