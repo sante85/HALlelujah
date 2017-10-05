@@ -99,7 +99,18 @@ To fetch these teams we use the getAll method of the ResourceService. This metho
 + The relative URI path of the resource  
   i.e. 'teams' for 'http://localhost:8080/teams'
 
-To be continued ....
+The method will immediately return an empty array. When the response comes in, the array will be automatically populated with fully initialised Team instances.  
+The array also has an 'observer' property of type Observable<Team> which you can use to listen on incoming data and to handle errors
+
+```typescript
+this.loading = true;
+this.teams = this.rs.getAll(Team, 'teams');
+this.teams.observable.subscribe(
+      undefined,
+      error => console.log(error),
+      () => this.loading = false
+    );
+``` 
 
 ## API
 ### ResourceService
