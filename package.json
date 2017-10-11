@@ -1,13 +1,29 @@
 {
   "name": "ng2-hallelujah",
   "version": "0.1.6",
-  "description": "Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API (and by extend any API that conforms the Spring Data Rest resource model)",
+  "description": "Hallelujah! This Angular module offers a HAL/JSON http-client to easily interact with a Spring Data Rest API or any API that implements the Spring Data Rest resource model",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "packagr": "ng-packagr -p ng-package.json"
   },
+  "keywords": [
+    "Spring Data Rest",
+    "Spring",
+    "HAL",
+    "hypermedia",
+    "REST",
+    "Angular 2"
+  ],
   "author": "unibit",
   "license": "MIT",
+  "homepage": "https://github.com/unib1t/HALlelujah",
+  "issues": {
+    "url": "https://github.com/unib1t/HALlelujah/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unib1t/HALlelujah.git"
+  },
   "devDependencies": {
     "ng-packagr": "^1.3.0"
   },

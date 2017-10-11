@@ -100,17 +100,42 @@ To fetch these teams we use the getAll method of the ResourceService. This metho
   i.e. 'teams' for 'http://localhost:8080/teams'
 
 The method will immediately return an empty array. When the response comes in, the array will be automatically populated with fully initialised Team instances.  
-The array also has an 'observer' property of type Observable<Team> which you can use to listen on incoming data and to handle errors
+
+The array also has an 'observer' property of type Observable<Team> which you can use to listen for incoming data and to handle errors
 
 ```typescript
 this.loading = true;
 this.teams = this.rs.getAll(Team, 'teams');
 this.teams.observable.subscribe(
-      undefined,
+      undefined, //incoming data is 
       error => console.log(error),
       () => this.loading = false
     );
 ``` 
+
+Every Team instance has hypermedia capabilities. i.e. To get all players of a team, you can simply do the following:
+
+```typescript
+let myTeam = this.teams[0];
+myTeam.players = myTeam.getAll(Player, 'players');
+```
+Parameters:
++ The type of the resource  
+  i.e. Player
++ The name of the relation. The value must match a member of the _links object in the HAL response of the owning resource  
+  i.e. 'players'
+
+This method call will return an array of fully initialised 'Player' instances. Again every Player instance has hypermedia capabilities to further traverse our API.  
+
+See the API section of this documentation for all capabilities and options.
+
+HAllelujah!  
+
+## Authentication
+
+This library uses Angular's HTTPClient module under the hood. Just implement your own authentication HttpInterceptor and wire it in your application using the HTTP_INTERCEPTORS Injectiontoken.  
+https://angular.io/guide/http#intercepting-all-requests-or-responses
+
 
 ## API
 ### ResourceService
@@ -124,5 +149,4 @@ TODO
 ## Roadmap
 
 + Error handling
-+ Add authentication support (Basic, JWT)
 + Add support for projections

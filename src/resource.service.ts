@@ -15,12 +15,11 @@ export class ResourceService {
     constructor(@Inject(API_URI) private root_uri: string, private http: HttpClient) {
     }
 
-    getAll<R extends Resource>(type: { new(): R }, resource: string, size?: number, ...sort: Sort[]): R[] {
+  getAll<R extends Resource>(type: { new(): R }, resource: string, options?: { size?: number, sort?: Sort[], params?: [{ key: string, value: string | number }] }): R[] {
       const uri = this.getResourceUrl(resource);
-        const params = ResourceHelper.queryStringSort(new HttpParams(), sort);
-        ResourceHelper.queryStringSize(params, size);
+    const params = ResourceHelper.optionParams(new HttpParams(), options);
         const result: R[] = ResourceHelper.createEmptyResult<R>(this.http);
-        result.sortInfo = sort;
+    result.sortInfo = options ? options.sort : undefined;
         result.observable = this.http.get(uri, {params: params});
         result.observable.subscribe(response => ResourceHelper.instantiateResourceCollection(type, response, result));
         return result;
@@ -36,14 +35,10 @@ export class ResourceService {
         return result;
     }
 
-    search<R extends Resource>(type: { new(): R }, query: string, queryParams?: Map<string, any>, size?: number, ...sort: Sort[]): R[] {
+  search<R extends Resource>(type: { new(): R }, query: string, options?: { size?: number, sort?: Sort[], params?: [{ key: string, value: string | number }] }): R[] {
       const uri = this.getResourceUrl().concat('search/', query);
-        const params = new HttpParams();
-        ResourceHelper.queryStringSearch(params, queryParams);
-        ResourceHelper.queryStringSize(params, size);
-        ResourceHelper.queryStringSort(params, sort);
-
-        const result: R[] = ResourceHelper.createEmptyResult<R>(this.http);
+    const params = ResourceHelper.optionParams(new HttpParams(), options);
+    const result: R[] = ResourceHelper.createEmptyResult<R>(this.http);
         result.observable = this.http.get(uri, {params: params});
         result.observable.subscribe(response => ResourceHelper.instantiateResourceCollection(type, response, result));
         return result;
@@ -69,5 +64,4 @@ export class ResourceService {
     }
     return url;
   }
-
 }

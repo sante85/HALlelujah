@@ -17,10 +17,9 @@ export abstract class Resource {
 
     // Get collection of related resources
 
-    getAll<R extends Resource>(type: { new(): R }, relation: string, size?: number, ...sort: Sort[]): R[] {
+  getAll<R extends Resource>(type: { new(): R }, relation: string, options?: { size?: number, sort?: Sort[], params?: [{ key: string, value: string | number }] }): R[] {
 
-        const params = ResourceHelper.queryStringSort(new HttpParams(), sort);
-        ResourceHelper.queryStringSize(params, size);
+    const params = ResourceHelper.optionParams(new HttpParams(), options);
         const result: R[] = ResourceHelper.createEmptyResult<R>(this.http);
         result.observable = this.http.get(this._links[relation].href, {params: params});
         result.observable.subscribe(response => ResourceHelper.instantiateResourceCollection(type, response, result));

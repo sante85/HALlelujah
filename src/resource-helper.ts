@@ -3,31 +3,30 @@ import {Resource} from './resource';
 
 export class ResourceHelper {
 
-    static queryStringSort(params: HttpParams, sort?: Sort[]): HttpParams {
-        if (sort) {
-            for (const s of sort) {
-                params = params.append('sort', s.path.concat(',').concat(s.order));
-            }
-        }
-        return params;
-    }
+  static optionParams(params: HttpParams, options?: { size?: number, sort?: Sort[], params?: [{ key: string, value: string | number }] }): HttpParams {
+    if (options) {
 
-    static queryStringSize(params: HttpParams, size?: number): HttpParams {
-        if (size) {
-            params = params.append('size', size.toString());
+      if (options.params) {
+        for (const param of options.params) {
+          params = params.append(param.key, param.value.toString());
         }
-        return params;
-    }
+        }
 
-    static queryStringSearch(params: HttpParams, queryParams?: Map<string, any>): HttpParams {
-        if (queryParams && queryParams.size > 0) {
-            const qs = '';
-            const i = 0;
-            queryParams.forEach((value: any, key: string) => {
-                params.append(key, value);
-            });
+      if (options.size) {
+        params = params.append('size', options.size.toString());
+      }
+
+      if (options.sort) {
+        for (const s of options.sort) {
+          let sortString = "";
+          sortString = s.path ? sortString.concat(s.path) : sortString;
+          sortString = s.order ? sortString.concat(',').concat(s.order) : sortString;
+          params = params.append('sort', sortString);
         }
-        return params;
+      }
+
+    }
+    return params;
     }
 
     static resolveRelations(resource: Resource): Object {
