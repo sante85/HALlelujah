@@ -7,7 +7,7 @@
 *.map.js
 *.metadata.json
 /src/**/*.js
-
+build/
 
 # dependencies
 /node_modules
