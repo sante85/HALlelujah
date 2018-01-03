@@ -1,27 +1,23 @@
-# Hallelujah
+# HAL Library Angular 5
 
-Hallelujah! This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API (and by extend any API that conforms the Spring Data Rest resource model)
+This Angular module offers a [HAL/JSON](http://stateless.co/hal_specification.html) http-client to easily interact with a [Spring Data Rest](https://projects.spring.io/spring-data-rest) API (and by extend any API that conforms the Spring Data Rest resource model)
 
 !! This module needs Angular version 4.3+ since it uses the new HttpClientModule introduced in 4.3
 
-Happy coding! Feedback much appreciated!
-
-##### Disclaimer: This project is work in progress
-
 ## Installation
 ```
-npm install ng2-hallelujah
+npm install angular-hal
 ```
 ## Configuration
 
-1. Import HallelujahModule in your app root module
+1. Import HalAngularModule in your app root module
 2. ResourceService is the entry-point for interacting with Spring Data Rest resources. Their should be only one application-wide ResourceService. So we add it to the providers of our app root module.
 3. Set the base URL of our Spring Data Rest API with the API_URI InjectionToken. Either put a string value or use an environment variable (best practise in multi-environment deployments)
 
 ```typescript
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HallelujahModule, ResourceService, API_URI} from 'ng2-hallelujah';
+import {HalAngularModule, ResourceService, API_URI} from 'angular-hal';
 
 import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
@@ -33,7 +29,7 @@ import {environment} from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    HallelujahModule
+    HalAngularModule
   ],
   providers: [
     ResourceService,
@@ -53,7 +49,7 @@ By inheriting the Resource class we give HAL specific features to our entity
 **Attention**: The name and type of the members of your resource class must exactly match the name and type of the members of the resource entity exposed by your API  
 
 ```typescript
-import {Resource} from 'ng2-hallelujah';
+import {Resource} from 'angular-halh';
 
 export class Player extends Resource{
     firstName: string;
@@ -62,7 +58,7 @@ export class Player extends Resource{
 ```
 Since a Team consists of multiple players, we model the one-to-many relationship between the Team resource and the Player resources
 ```typescript
-import {Resource} from 'ng2-hallelujah';
+import {Resource} from 'angular-hal';
 
 export class Team extends Resource {
     name: string;
@@ -73,7 +69,7 @@ So far so good, time to make our application interact with the API.
 To illustrate we create a TeamManagerComponent that will implement some basic CRUD on our resources.
 
 ```typescript
-import {ResourceService} from 'ng2-hallelujah';
+import {ResourceService} from 'angular-hal';
 
 @Component({...})
 export class TeamManagerComponent implements OnInit {
